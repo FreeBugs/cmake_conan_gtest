@@ -10,7 +10,7 @@ namespace tiere {
         int gewicht_;
 
     public:
-        schwein(const std::string name = "nobody") ;
+        explicit schwein(const std::string name = "nobody") ;
         virtual ~schwein() = default;
         virtual void fressen();
         virtual void set_name(std::string );

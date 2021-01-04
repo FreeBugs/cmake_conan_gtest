@@ -2,7 +2,9 @@
 #include <stdexcept>
 
 tiere::schwein::schwein(const std::string name) : name_(name), gewicht_(10) {
-
+    if("Elsa" == name) {
+        throw std::invalid_argument("No Elsa!");
+    }
 }
 
 void tiere::schwein::fressen() {
