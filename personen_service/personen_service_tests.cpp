@@ -58,8 +58,6 @@ INSTANTIATE_TEST_SUITE_P(
         person_service_impl_parametrized_test,
         ::testing::Values(
                 person{"1", "a", "aaa"},
-                person{"1", "aa", "aaa"},
-                person{"1", "aaa", "aa"},
                 person{"1", "aaa", "a"},
                 person{"1", "Atilla", "foobar"}
         ));

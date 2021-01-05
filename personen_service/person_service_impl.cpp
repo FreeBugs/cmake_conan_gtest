@@ -7,10 +7,10 @@ person_service_impl::person_service_impl(person_repository &repo) : repo(repo) {
 }
 
 void person_service_impl::speichern(person &p) {
-    if(p.GetVorname().length() < 3) {
+    if(p.GetVorname().length() < 2) {
         throw personen_service_exception{"Vorname zu kurz"};
     }
-    if(p.GetNachname().length() < 3) {
+    if(p.GetNachname().length() < 2) {
         throw personen_service_exception{"Nachname zu kurz"};
     }
     if(p.GetVorname() == "Atilla") {
