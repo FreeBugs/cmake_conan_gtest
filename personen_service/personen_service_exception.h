@@ -1,10 +1,12 @@
 #pragma once
 
 #include <stdexcept>
+#include <string>
 
 class personen_service_exception :
         public std::runtime_error {
 public:
-    personen_service_exception(char const *const message);
+    explicit personen_service_exception(const std::string &message)
+            : runtime_error(message) {};
 };
 

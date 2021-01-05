@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <utility>
 
 class person {
 private:
@@ -10,6 +11,9 @@ private:
 
 public:
     person() : id(""), vorname("John"), nachname("Doe") {}
+
+    person(std::string id, std::string vorname, std::string nachname) : id(std::move(id)), vorname(std::move(vorname)),
+                                                                        nachname(std::move(nachname)) {}
 
     void SetId(std::string id) {
         this->id = id;
