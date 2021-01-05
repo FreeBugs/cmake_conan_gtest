@@ -10,9 +10,6 @@ conan_cmake_run(REQUIRES
 
 add_executable(main main.cpp)
 
-add_executable(testall mult_test.cpp pig_test.cpp schwein.cpp)
-target_link_libraries(testall ${CONAN_LIBS})
-target_include_directories(testall PUBLIC ${CONAN_INCLUDE_DIRS_GTEST})
-target_link_directories(testall PUBLIC ${CONAN_LIB_DIRS})
-
-add_subdirectory(personen_service)
+add_subdirectory(multiplier)
+add_subdirectory(piggy)
+add_subdirectory(person_service)

@@ -1,11 +1,10 @@
 #include "gtest/gtest.h"
-#include "person.h"
-#include "gtest/gtest.h"
+#include "person.hpp"
 #include "gmock/gmock.h"
-#include "person_repository.h"
-#include "person_service_impl.h"
-#include "personen_service_exception.h"
-#include "repository_exception.h"
+#include "person_repository.hpp"
+#include "person_service_impl.hpp"
+#include "person_service_exception.hpp"
+#include "repository_exception.hpp"
 #include "fancy_throw_asserts.hpp"
 
 using namespace testing;
@@ -61,8 +60,8 @@ TEST_F(person_service_impl_test, a_valid_name_is_fine) {
 
 TEST_F(person_service_impl_test, antipath_is_rejected) {
     EXPECT_CALL(antipath_checker, is_antipath).WillOnce(Return(true));
-    // EXPECT_THROW(objectUnderTest.speichern(good_person), personen_service_exception);
-    ASSERT_EXCEPTION({ objectUnderTest.speichern(good_person); }, personen_service_exception, "WTF Vorname");
+    // EXPECT_THROW(objectUnderTest.speichern(good_person), person_service_exception);
+    ASSERT_EXCEPTION({ objectUnderTest.speichern(good_person); }, person_service_exception, "WTF Vorname");
 }
 
 TEST_F(person_service_impl_test, a_valid_name_as_strings_is_fine) {
@@ -88,7 +87,7 @@ TEST_P(person_service_impl_parametrized_test, short_vorname_or_nachname_fails) {
     ASSERT_EXCEPTION_REGEX({
                      auto p = GetParam();
                      objectUnderTest.speichern(p);
-                 }, personen_service_exception, ".*zu kurz.*");
+                 }, person_service_exception, ".*zu kurz.*");
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -111,6 +110,6 @@ TEST_F(person_service_impl_test, repo_error_from_underlying_component) {
     EXPECT_CALL(person_repo, find_by_id).WillOnce(ThrowRepositoryException());
     EXPECT_CALL(antipath_checker, is_antipath).WillOnce(Return(false));
     EXPECT_CALL(person_repo, save).WillOnce(ThrowRepositoryException());
-    EXPECT_THROW(objectUnderTest.speichern(good_person), personen_service_exception);
+    EXPECT_THROW(objectUnderTest.speichern(good_person), person_service_exception);
 }
 

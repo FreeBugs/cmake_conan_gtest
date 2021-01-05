@@ -3,15 +3,15 @@
 #include <string>
 
 namespace tiere {
-    class schwein
+    class piggy
     {
     private:
         std::string name_;
         int gewicht_;
 
     public:
-        explicit schwein(const std::string name = "nobody") ;
-        virtual ~schwein() = default;
+        explicit piggy(const std::string name = "nobody") ;
+        virtual ~piggy() = default;
         virtual void fressen();
         virtual void set_name(std::string );
         virtual std::string get_name() const;
@@ -20,7 +20,7 @@ namespace tiere {
 
     };
 
-    std::ostream& operator << (std::ostream& out, const schwein& schwein);
+    std::ostream& operator << (std::ostream& out, const piggy& schwein);
 
 }
 

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "schwein.hpp"
+#include "piggy.hpp"
 #include "gtest/gtest.h"
 
 using namespace testing;
@@ -10,10 +10,10 @@ public:
     PigTest() {}
 
 //    void SetUp(const std::string name) {
-//        objectUnderTest = schwein(name);
+//        objectUnderTest = piggy(name);
 //    }
 
-    schwein objectUnderTest;
+    piggy objectUnderTest;
 };
 
 TEST_F(PigTest, pig_start_weight_is_10) {
@@ -22,11 +22,11 @@ TEST_F(PigTest, pig_start_weight_is_10) {
 
 TEST_F(PigTest, pig_throws_if_constructed_as_elsa) {
     EXPECT_THROW(
-            schwein objectUnderTest("Elsa"), std::invalid_argument);
+            piggy objectUnderTest("Elsa"), std::invalid_argument);
 }
 
 TEST_F(PigTest, pig_likes_other_names) {
-    EXPECT_NO_THROW(schwein objectUnderTest("Horst"));
+    EXPECT_NO_THROW(piggy objectUnderTest("Horst"));
 }
 
 TEST_F(PigTest, pig_throws_if_setname_with_elsa) {
