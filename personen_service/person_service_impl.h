@@ -24,13 +24,14 @@ public:
 	 * 4. Exception im darunter liegenden Layer -> -> person_service_exception
 	 * 
 	 */
-	void speichern(person &p) ;
+    void speichern(person &p) ;
+    void speichern(std::string vorname, std::string nachname);
 
 	
 
 	/*
 	 * Kein Treffer -> RepoException => Leeres Optional
-	 * Treffer -> Bef�lltes Optional
+	 * Treffer -> Befülltes Optional
 	 * 
 	 */
 	std::optional<person> findePersonMitId(std::string id);

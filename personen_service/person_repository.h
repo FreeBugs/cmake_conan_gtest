@@ -3,6 +3,7 @@
 #include "person.h"
 #include <vector>
 #include <string>
+#include <optional>
 
 class person_repository {
 public:
@@ -14,6 +15,6 @@ public:
 
     virtual std::vector<person> find_all() const = 0;
 
-    virtual person find_by_id(std::string id) const = 0;
+    virtual std::optional<person> find_by_id(std::string id) const = 0;
 
 };

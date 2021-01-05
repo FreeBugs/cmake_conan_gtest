@@ -17,12 +17,21 @@ void person_service_impl::speichern(person &p) {
         throw personen_service_exception{"WTF Vorname"};
     }
     try {
-        repo.save(p);
+        bool exists = findePersonMitId(p.GetId()).has_value();
+        if(exists) {
+            repo.update(p);
+        } else {
+            repo.save(p);
+        }
     } catch(repository_exception &e) {
         throw personen_service_exception(e.what());
     }
 }
 
+void person_service_impl::speichern(std::string vorname, std::string nachname) {
+    person p{"99", vorname, nachname};
+    speichern(p);
+}
 
 std::optional<person> person_service_impl::findePersonMitId(std::string id) {
     try {
@@ -31,3 +40,5 @@ std::optional<person> person_service_impl::findePersonMitId(std::string id) {
         return std::nullopt;
     }
 }
+
+

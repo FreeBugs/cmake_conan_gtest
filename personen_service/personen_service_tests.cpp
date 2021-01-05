@@ -25,7 +25,7 @@ public:
     MOCK_METHOD(void, update, (person), (override));
     MOCK_METHOD(void, remove, (person), (override));
     MOCK_METHOD(std::vector<person>, find_all, (), (const, override));
-    MOCK_METHOD(person, find_by_id, (std::string id), (const, override));
+    MOCK_METHOD(std::optional<person>, find_by_id, (std::string id), (const, override));
 };
 
 class person_service_impl_test : public Test {
@@ -42,7 +42,24 @@ public:
 };
 
 TEST_F(person_service_impl_test, a_valid_name_is_fine) {
+    EXPECT_CALL(person_repo, find_by_id).WillOnce(ThrowRepositoryException());
     EXPECT_CALL(person_repo, save).Times(1);
+    objectUnderTest.speichern(good_person);
+}
+
+TEST_F(person_service_impl_test, a_valid_name_as_strings_is_fine) {
+    EXPECT_CALL(person_repo, find_by_id).WillOnce(ThrowRepositoryException());
+    person saved_p;
+    EXPECT_CALL(person_repo, save).WillOnce(SaveArg<0>(&saved_p));
+    objectUnderTest.speichern(good_person.GetVorname(),
+                              good_person.GetNachname());
+    EXPECT_EQ(good_person.GetVorname(), saved_p.GetVorname());
+    EXPECT_EQ(good_person.GetNachname(), saved_p.GetNachname());
+}
+
+TEST_F(person_service_impl_test, a_valid_name_is_fine_for_updating_a_record) {
+    EXPECT_CALL(person_repo, find_by_id).WillOnce(Return(good_person));
+    EXPECT_CALL(person_repo, update).Times(1);
     objectUnderTest.speichern(good_person);
 }
 
