@@ -6,16 +6,17 @@
 #include "person_service_impl.h"
 #include "personen_service_exception.h"
 #include "repository_exception.h"
+#include "fancy_throw_asserts.hpp"
 
 using namespace testing;
 
-ACTION(ThrowRuntimeError)
-{
+
+
+ACTION(ThrowRuntimeError) {
     throw std::runtime_error("foo");
 }
 
-ACTION(ThrowRepositoryException)
-{
+ACTION(ThrowRepositoryException) {
     throw repository_exception();
 }
 
@@ -28,26 +29,44 @@ public:
     MOCK_METHOD(std::optional<person>, find_by_id, (std::string id), (const, override));
 };
 
+class mock_antipath_checker : public antipath_checker {
+public:
+    MOCK_METHOD(bool, is_antipath, (std::string), (override));
+};
+
 class person_service_impl_test : public Test {
 public:
     person good_person{"1", "good", "name"};
     mock_person_repository person_repo;
-    person_service_impl objectUnderTest{person_repo};
+    mock_antipath_checker antipath_checker;
+    person_service_impl objectUnderTest{person_repo, antipath_checker};
 };
 
 class person_service_impl_parametrized_test : public TestWithParam<person> {
 public:
     mock_person_repository person_repo;
-    person_service_impl objectUnderTest{person_repo};
+    mock_antipath_checker antipath_checker;
+    person_service_impl objectUnderTest{person_repo, antipath_checker};
 };
 
 TEST_F(person_service_impl_test, a_valid_name_is_fine) {
+    {
+        InSequence seq;
+        EXPECT_CALL(antipath_checker, is_antipath).WillOnce(Return(false));
+        EXPECT_CALL(person_repo, save).Times(1);
+    }
     EXPECT_CALL(person_repo, find_by_id).WillOnce(ThrowRepositoryException());
-    EXPECT_CALL(person_repo, save).Times(1);
     objectUnderTest.speichern(good_person);
 }
 
+TEST_F(person_service_impl_test, antipath_is_rejected) {
+    EXPECT_CALL(antipath_checker, is_antipath).WillOnce(Return(true));
+    // EXPECT_THROW(objectUnderTest.speichern(good_person), personen_service_exception);
+    ASSERT_EXCEPTION({ objectUnderTest.speichern(good_person); }, personen_service_exception, "WTF Vorname");
+}
+
 TEST_F(person_service_impl_test, a_valid_name_as_strings_is_fine) {
+    EXPECT_CALL(antipath_checker, is_antipath).WillOnce(Return(false));
     EXPECT_CALL(person_repo, find_by_id).WillOnce(ThrowRepositoryException());
     person saved_p;
     EXPECT_CALL(person_repo, save).WillOnce(SaveArg<0>(&saved_p));
@@ -58,16 +77,18 @@ TEST_F(person_service_impl_test, a_valid_name_as_strings_is_fine) {
 }
 
 TEST_F(person_service_impl_test, a_valid_name_is_fine_for_updating_a_record) {
+    EXPECT_CALL(antipath_checker, is_antipath).WillOnce(Return(false));
     EXPECT_CALL(person_repo, find_by_id).WillOnce(Return(good_person));
     EXPECT_CALL(person_repo, update).Times(1);
     objectUnderTest.speichern(good_person);
 }
 
-TEST_P(person_service_impl_parametrized_test, invalid_names_fail) {
+TEST_P(person_service_impl_parametrized_test, short_vorname_or_nachname_fails) {
     EXPECT_CALL(person_repo, save).Times(0);
-    EXPECT_THROW({
-    auto p = GetParam();
-    objectUnderTest.speichern(p);}, personen_service_exception);
+    ASSERT_EXCEPTION_REGEX({
+                     auto p = GetParam();
+                     objectUnderTest.speichern(p);
+                 }, personen_service_exception, ".*zu kurz.*");
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -75,17 +96,21 @@ INSTANTIATE_TEST_SUITE_P(
         person_service_impl_parametrized_test,
         ::testing::Values(
                 person{"1", "a", "aaa"},
-                person{"1", "aaa", "a"},
-                person{"1", "Atilla", "foobar"}
+                person{"1", "aaa", "a"}
         ));
 
 
 TEST_F(person_service_impl_test, system_error_from_underlying_component) {
+    EXPECT_CALL(person_repo, find_by_id).WillOnce(ThrowRepositoryException());
+    EXPECT_CALL(antipath_checker, is_antipath).WillOnce(Return(false));
     EXPECT_CALL(person_repo, save).WillOnce(ThrowRuntimeError());
     EXPECT_THROW(objectUnderTest.speichern(good_person), std::runtime_error);
 }
 
 TEST_F(person_service_impl_test, repo_error_from_underlying_component) {
+    EXPECT_CALL(person_repo, find_by_id).WillOnce(ThrowRepositoryException());
+    EXPECT_CALL(antipath_checker, is_antipath).WillOnce(Return(false));
     EXPECT_CALL(person_repo, save).WillOnce(ThrowRepositoryException());
     EXPECT_THROW(objectUnderTest.speichern(good_person), personen_service_exception);
 }
+

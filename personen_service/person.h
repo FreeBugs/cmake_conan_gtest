@@ -16,26 +16,26 @@ public:
                                                                         nachname(std::move(nachname)) {}
 
     void SetId(std::string id) {
-        this->id = id;
+        this->id = std::move(id);
     }
 
     void SetVorname(std::string vorname) {
-        this->vorname = vorname;
+        this->vorname = std::move(vorname);
     }
 
     void SetNachname(std::string nachname) {
-        this->nachname = nachname;
+        this->nachname = std::move(nachname);
     }
 
-    std::string GetVorname() const {
+    [[nodiscard]] std::string GetVorname() const {
         return this->vorname;
     }
 
-    std::string GetNachname() const {
+    [[nodiscard]] std::string GetNachname() const {
         return this->nachname;
     }
 
-    std::string GetId() const {
+    [[nodiscard]] std::string GetId() const {
         return this->id;
     }
 };
