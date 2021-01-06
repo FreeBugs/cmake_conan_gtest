@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="6" failures="0" disabled="0" errors="0" time="0.295" timestamp="2020-12-29T14:25:04.227" name="AllTests">
+  <testsuite name="EuroToDollarCalculatorApplicationTest" tests="6" failures="0" disabled="0" skipped="0" errors="0" time="0.286" timestamp="2020-12-29T14:25:04.234">
+    <testcase name="GetSetEuro" status="run" result="completed" time="0.098" timestamp="2020-12-29T14:25:04.234" classname="EuroToDollarCalculatorApplicationTest" />
+    <testcase name="GetSetDollar" status="run" result="completed" time="0.044" timestamp="2020-12-29T14:25:04.343" classname="EuroToDollarCalculatorApplicationTest" />
+    <testcase name="GetSetRechnenState" status="run" result="completed" time="0.029" timestamp="2020-12-29T14:25:04.390" classname="EuroToDollarCalculatorApplicationTest" />
+    <testcase name="RechnenButtonClick" status="run" result="completed" time="0.024" timestamp="2020-12-29T14:25:04.422" classname="EuroToDollarCalculatorApplicationTest" />
+    <testcase name="BeendenButtonClick" status="run" result="completed" time="0.023" timestamp="2020-12-29T14:25:04.451" classname="EuroToDollarCalculatorApplicationTest" />
+    <testcase name="EuroTextChanged" status="run" result="completed" time="0.043" timestamp="2020-12-29T14:25:04.476" classname="EuroToDollarCalculatorApplicationTest" />
+  </testsuite>
+</testsuites>
