@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>EuroToDollarCalculatorApplicationClass</class>
+ <widget class="QMainWindow" name="EuroToDollarCalculatorApplicationClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>281</width>
+    <height>157</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>EuroToDollarCalculator</string>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QLabel" name="lbl_euro">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>10</y>
+      <width>49</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Euro:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_dollar">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>49</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Dollar:</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_rechnen">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>80</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rechnen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_beenden">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>80</y>
+      <width>75</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Beenden</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txt_euro">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>10</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="txt_dollar">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>40</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="EuroToDollarCalculatorApplication.qrc"/>
+ </resources>
+ <connections/>
+ <slots>
+  <slot>slot1()</slot>
+ </slots>
+</ui>
